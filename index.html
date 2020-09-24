@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Mine Sweeper</title>
+    <title> 💣Mine Sweeper🚩</title>
 </head>
+
 <body onload="init()">
+    <h1>Mine Sweeper 🚩</h1>
     <div class="timer"></div>
+
+    <div class="status"><button class="smiley-btn" onclick="init()"></button></div>
+    <div class="lives">Lives Left: 3</div>
+    <div class="level">
+        <h3>Choose Level</h3>
+        <button onclick="chooseLevel(4,2)">Easy</button>
+        <button onclick="chooseLevel(8,12)">Medium</button>
+        <button onclick="chooseLevel(12,30)">Hard</button>
+    </div>
     <table border="2px;" class="center">
         <tbody class="game-board"></tbody>
     </table>
-    
 
-    <script src="js/main.js"></script> 
+
+    <script src="js/main.js"></script>
 </body>
+
 </html>
