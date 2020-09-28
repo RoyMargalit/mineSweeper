@@ -33,10 +33,8 @@ function init() {
     var elLives = document.querySelector(".lives")
     elLives.innerText = `Lives left: ${gLives}`
 }
-
 function buildBoard(mineNum, size) {
     var board = [];
-    console.log(cell, '111')
     for (var i = 0; i < size; i++) {
         board.push([]);
         for (var j = 0; j < size; j++) {
@@ -62,7 +60,7 @@ function createCell(i, j) {
     return cell
 }
 function createMines(mineNum, board) {
-    console.log('create mines')
+    // console.log('create mines')
     for (var x = 0; x < mineNum - 1; x++) {
         // console.log(boar)
         var rndI = getRandomIntInclusive(0, board.length - 1)////check!!
@@ -71,12 +69,11 @@ function createMines(mineNum, board) {
     }
     return board
 }
-
-function renderCell(i, j, currCell, board) {
+function renderCell(i, j, currCell) {
     var strCell = ''
     var tdClass = `cell-${i}-${j}`;
-    strCell += `<td class="covered"   
-        onclick="cellClicked(this,${i},${j},event)" oncontextmenu="onRightClick(event,${i},${j})">`
+    strCell += `<td class="covered"
+        onclick="cellClicked(this,${i},${j})" oncontextmenu="onRightClick(event,${i},${j})">`
     if (currCell.isMarked === true) {
         strCell += FLAG
     } else {
@@ -113,24 +110,25 @@ function renderBoard(board) {
 
 function onRightClick(event, i, j) {
     event.preventDefault();
-    gBoard[i][j].isMarked = true
-    gFlagsCount++
+    if (gBoard[i][j].isMarked === true) {
+        gBoard[i][j].isMarked = false
+        gFlagsCount--
+    } else {
+        gBoard[i][j].isMarked = true
+        gFlagsCount++
+    }
     checkVictory()
     renderBoard(gBoard)
 }
 
-function cellClicked(elCell, i, j, event) {
+function cellClicked(elCell, i, j) {
     while (gFirstnum === 0 && gBoard[i][j].isMine === true) {
         init()
     }
     gFirstnum++
     var currCell = gBoard[i][j]
     gBoard[i][j].isShown === true
-    // var elCover = document.querySelector(".covered")
-    // console.log(elCover)
-    // elCover.classList.remove("covered")
-    // console.log(elCover)
-    cellCount++
+    cellCount++    
     if (cellCount === 1) {
         startTimer()
     }
@@ -145,13 +143,11 @@ function cellClicked(elCell, i, j, event) {
         } else if (gLives < 0) {
             elLives.innerText = 'GAME OVER!'
         }
-
     }
     cellOpening(i, j)
     checkVictory()
     renderBoard(gBoard)
 }
-
 function createStatus() {
     var elStatus = document.querySelector('.smiley-btn')
     if (+gLives > 0) {
@@ -161,7 +157,6 @@ function createStatus() {
     }
     return elStatus.innerText
 }
-
 function countMinesLocal(board, rowIdx, colIdx) {
     var countNegs = 0;
     for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
@@ -184,7 +179,6 @@ function countMines(board) {
     }
     return board
 }
-
 function cellOpening(i, j) {
     if (i < 0 || j < 0 || i > gBoard[0].length - 1 || j > gBoard[0].length - 1) return
     if (gBoard[i][j].isMine === true) return
@@ -197,12 +191,10 @@ function cellOpening(i, j) {
         cellOpening(i, j - 1)
     }
 }
-
 function minusLife() {
     gLives--
     return gLives
 }
-
 function gameOver() {
     var elLives = document.querySelector(".lives")
     var elTime = document.querySelector(".timer")
